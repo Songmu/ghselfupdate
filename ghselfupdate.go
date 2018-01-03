@@ -3,7 +3,6 @@ package ghselfupdate
 import (
 	"fmt"
 	"log"
-	"os"
 	"path/filepath"
 	"regexp"
 	"runtime"
@@ -39,10 +38,6 @@ func fname2Slug(s string) (string, error) {
 
 // Do binary self update
 func Do(ver string) error {
-	cmdPath, err := os.Executable()
-	if err != nil {
-		return err
-	}
 	semv, err := semver.Parse(ver)
 	if err != nil {
 		return err
@@ -52,7 +47,7 @@ func Do(ver string) error {
 		return err
 	}
 
-	latest, err := selfupdate.UpdateCommand(cmdPath, semv, slug)
+	latest, err := selfupdate.UpdateSelf(semv, slug)
 	if err != nil {
 		return err
 	}
@@ -65,9 +60,9 @@ func Do(ver string) error {
 }
 
 func detectSlug() (slug string, err error) {
-	// 1: this function detectSlug
-	// 2: caller (public api of this package)
-	// 3: extern
+	// 1 : this private function `detectSlug`
+	// 2 : caller (function in this package. e.g. `Do`)
+	// 3-: extern
 	for i := 3; true; i++ {
 		_, fname, _, ok := runtime.Caller(i)
 		if !ok {
