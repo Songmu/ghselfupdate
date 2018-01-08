@@ -3,6 +3,7 @@ package ghselfupdate
 import (
 	"fmt"
 	"log"
+	"os"
 	"path/filepath"
 	"regexp"
 	"runtime"
@@ -11,6 +12,12 @@ import (
 	"github.com/blang/semver"
 	"github.com/rhysd/go-github-selfupdate/selfupdate"
 )
+
+func init() {
+	if _, ok := os.LookupEnv("GHSELFUPDATE_DEBUG"); ok {
+		selfupdate.EnableLog()
+	}
+}
 
 var pkgSlug string
 var slugReg = regexp.MustCompile(`/(?:src|vendor)/github.com/([^/]+/[^/]+)`)
