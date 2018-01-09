@@ -49,7 +49,7 @@ func Do(ver string) error {
 		return err
 	}
 	if latest.Version.Equals(semv) {
-		log.Println("Current binary is the latest version", ver)
+		log.Println("Current binary is already up-to-date. version:", ver)
 	} else {
 		log.Println("Successfully updated to version", latest.Version)
 	}
@@ -66,7 +66,7 @@ func detectSlug() (slug string, err error) {
 			return "", fmt.Errorf("no slug deteced from caller")
 		}
 		fname = filepath.ToSlash(fname)
-		if strings.Contains(fname, getPkgSlug()) {
+		if strings.Contains(fname, pkgSlug) {
 			continue
 		}
 		slug, err = fname2Slug(fname)
