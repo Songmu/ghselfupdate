@@ -19,20 +19,10 @@ func init() {
 	}
 }
 
-var pkgSlug string
-var slugReg = regexp.MustCompile(`/(?:src|vendor)/github.com/([^/]+/[^/]+)`)
-
-func getPkgSlug() string {
-	if pkgSlug == "" {
-		_, fname, _, _ := runtime.Caller(1)
-		slug, err := fname2Slug(fname)
-		if err != nil {
-			log.Fatal(err)
-		}
-		pkgSlug = slug
-	}
-	return pkgSlug
-}
+var (
+	pkgSlug = "Songmu/ghselfupdate"
+	slugReg = regexp.MustCompile(`/(?:src|vendor)/github.com/([^/]+/[^/]+)`)
+)
 
 func fname2Slug(s string) (string, error) {
 	s = filepath.ToSlash(s)
